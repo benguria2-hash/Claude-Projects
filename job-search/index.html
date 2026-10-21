@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2457d6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Job Search">
+<title>Job Search</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+  html, body { margin: 0; height: 100%; background: #f4f5f7; }
+  @media (prefers-color-scheme: dark) { html, body { background: #101215; } }
+  iframe { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; }
+  #help { display: none; position: fixed; left: 16px; right: 16px; bottom: 24px; padding: 14px;
+    border-radius: 12px; background: #1b1f24; color: #fff; font: 14px/1.4 -apple-system, Roboto, sans-serif; }
+  #help a { color: #9cc0ff; font-weight: 700; }
+</style>
+</head>
+<body>
+<iframe id="app" title="Job Search" allow="clipboard-write"></iframe>
+<div id="help">¿No carga? <a id="direct" target="_blank" rel="noopener">Ábrela en el navegador</a> e inicia sesión en Google; después vuelve a abrir la app.</div>
+<script>
+  // App web de Apps Script (implementación "Solo yo")
+  var APP_URL = 'https://script.google.com/macros/s/AKfycbyjJ0S_zFnk58fn2Q4ViwHj9t23CiGY8TFCfvo9MFapOxxX8vjdj7bBIk2FbWtqBZkE/exec';
+  var frame = document.getElementById('app');
+  frame.src = APP_URL;
+  document.getElementById('direct').href = APP_URL;
+  // Si en 12 s no cargó, muestra ayuda (sesión de Google vencida, sin conexión, etc.)
+  var loaded = false;
+  frame.addEventListener('load', function () { loaded = true; });
+  setTimeout(function () { if (!loaded) document.getElementById('help').style.display = 'block'; }, 12000);
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function () {});
+</script>
+</body>
+</html>
